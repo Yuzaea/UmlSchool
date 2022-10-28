@@ -9,15 +9,16 @@ using System.Diagnostics;
 using System.Xml.Linq;
 
 namespace ConsoleApp2
-{ 
-public class Menu
 {
-
-    private PizzaDick _pizzaDick;
-        public Menu(PizzaDick pizzaDick)
+    public class Menu
+    {
+        private CustomerList _customerList;
+        private PizzaDick _pizzaDick;
+        public Menu(PizzaDick pizzaDick, CustomerList customerList)
         {
 
             _pizzaDick = pizzaDick;
+            _customerList = customerList;
         }
 
         public int ReadUserChoice()
@@ -33,7 +34,7 @@ public class Menu
                 return -1;
             }
         }
-            public int ShowMenu()
+        public int ShowMenu()
         {
             Console.Clear();
             Console.WriteLine("\t1.\tBestil pizza");
@@ -55,7 +56,7 @@ public class Menu
                         Console.WriteLine("Hello");
 
                         break;
-                    case 7:
+                    case 9999:
                         {
                             {
 
@@ -64,6 +65,11 @@ public class Menu
                                 Console.WriteLine("\t3.\tSøg efter en Pizza i PizzaDick udfra Nummer");
                                 Console.WriteLine("\t4.\tFjern Pizza i PizzaDick");
                                 Console.WriteLine("\t5.\tOpdater Pizza fra PizzaDick");
+                                Console.WriteLine("\t6.\tTilføj Customer");
+                                Console.WriteLine("\t7.\tUdskriv alle Customers");
+                                Console.WriteLine("\t8.\tSøg efter en Customer udfra ID");
+                                Console.WriteLine("\t9.\tFjern Customer");
+                                Console.WriteLine("\t10.\tOpdater Customer");
                                 int AdminValg = int.Parse(Console.ReadLine());
                                 while (AdminValg != 0)
                                 {
@@ -87,8 +93,28 @@ public class Menu
                                             break;
                                         case 5:
                                             Console.Clear();
+                                            AddCustomerToList();
+                                            break;
+                                        case 6:
+                                            Console.Clear();
+                                            AddCustomerToList();
+                                            break;
+                                        case 7:
+                                            Console.Clear();
+                                            _customerList.PrintCustomer();
+                                            break;
+                                        case 8:
+                                            Console.Clear();
+                                            LookupCustomer();
+                                            break;
+                                        case 9:
+                                            Console.Clear();
+                                            DeleteCustomerFromList();
+                                            break;
+                                        case 10:
+                                            Console.Clear();
                                             UpdatePizzaDick();
-                                                break;
+                                            break;
                                         default:
                                             Console.Clear();
                                             Console.WriteLine("Fejl i input");
@@ -206,11 +232,70 @@ public class Menu
 
                 Console.WriteLine("Pizzaen er opdateret");
             }
-         
+        }
 
+        private void AddCustomerToList()
+        {
+            Console.WriteLine("Add Customer");
+            Console.WriteLine("Angiv ID");
+            string id = Console.ReadLine();
+            Console.WriteLine("Angiv Navn");
+            string name = Console.ReadLine();
+            Console.WriteLine("Angiv Address");
+            string address = Console.ReadLine();
 
+            Customer b = new Customer(id, name, address);
+            _customerList.AddCustomer(b);
+        }
+        private void DeleteCustomerFromList()
+        {
+            Console.WriteLine("Delete Customer");
+            Console.WriteLine("Angiv ID");
+            string id = Console.ReadLine();
+            _customerList.DeleteCustomer(id);
+        }
+        private void LookupCustomer()
+        {
+            Console.WriteLine("Search Customer");
+            Console.WriteLine("Angiv ID");
+            string id = Console.ReadLine();
+            Customer customer = _customerList.LookUpCostumer(id);
+            if (customer == null)
+            {
+                Console.WriteLine("Customer der søges efter eksisterer ikke");
+            }
+            else
+            {
+                Console.WriteLine(customer);
+            }
+            Console.ReadLine();
+        }
+        private void UpdateCustomer()
+        {
+            Console.WriteLine("Update Customer");
+            Console.WriteLine("Angiv Id på Custo´mer der skal opdateres");
+            string idold = Console.ReadLine();
+            Customer customer = _customerList.LookUpCostumer(idold);
+            if (customer == null)
+            {
+                Console.WriteLine("Customer der søges efter eksisterer ikke");
+            }
+            else
+            {
+                Console.WriteLine("Update Customer");
+                Console.WriteLine("Angiv ID");
+                string id = Console.ReadLine();
+                Console.WriteLine("Angiv Navn");
+                string name = Console.ReadLine();
+                Console.WriteLine("Angiv Adress");
+                string address = Console.ReadLine();
+                Customer updatedCustomer = new Customer(id, name, address);
 
+                _customerList.UpdateCustomer(idold, updatedCustomer);
+                Console.WriteLine("Customer er opdateret");
+                Console.ReadLine();
             }
         }
 
     }
+}

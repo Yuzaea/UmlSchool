@@ -37,6 +37,11 @@ namespace ConsoleApp2
             get { return _adress; }
             set { _adress = value; }
         }
+
+        public override string ToString()
+        {
+            return $"ID {_id} Navn {_name} Adresse {_adress}";
+        }
     }
 }
 

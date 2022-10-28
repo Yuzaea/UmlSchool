@@ -40,6 +40,7 @@ internal class Program
             }
         }
 
+        List<Customer> CustomerList = new List<Customer> ();
 
         List<Pizza> puzza = new List<Pizza>();
         List<string> lines = File.ReadAllLines(filePath).ToList();
@@ -80,8 +81,9 @@ internal class Program
             Console.WriteLine("Pizza ikke fundet");
 
         }
+        CustomerList customerList = new CustomerList();
         Console.WriteLine(puzza.ToString);
-        Menu menu = new Menu(pizzaDick);
+        Menu menu = new Menu(pizzaDick, customerList);
         menu.Run();
         Console.ReadLine();
 
